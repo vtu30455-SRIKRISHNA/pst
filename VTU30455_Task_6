@@ -1,0 +1,35 @@
+public class DigitSumOption {
+    public static void main(String[] args) {
+        int number = 254782;
+        
+        // Options: "even" or "odd"
+        String option = "even"; 
+        
+        int result = getDigitSum(number, option);
+        System.out.println("Sum of " + option + " digits in " + number + " is: " + result);
+        option = "odd";
+        result = getDigitSum(number, option);
+        System.out.println("Sum of " + option + " digits in " + number + " is: " + result);
+    }
+    public static int getDigitSum(int num, String option) {
+        num = Math.abs(num);
+        int sum = 0;
+        while (num > 0) {
+            int digit = num % 10;
+            if (option.equalsIgnoreCase("even")) {
+                if (digit % 2 == 0) {
+                    sum += digit;
+                }
+            } else if (option.equalsIgnoreCase("odd")) {
+                if (digit % 2 != 0) {
+                    sum += digit;
+                }
+            } else {
+                System.out.println("Invalid option. Use 'even' or 'odd'.");
+                return -1;
+            }
+            num = num / 10;
+        }
+        return sum;
+    }
+}
