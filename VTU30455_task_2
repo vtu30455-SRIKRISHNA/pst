@@ -28,8 +28,6 @@ public class BinarySearchExample {
                 right = mid - 1;
             }
         }
-
-        // Element was not present
         return -1;
     }
 }
