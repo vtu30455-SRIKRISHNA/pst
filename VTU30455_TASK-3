@@ -10,7 +10,7 @@ public class FindMax {
             if (numbers[i] > max) {
                 max = numbers[i]; // Update max if a larger element is found
             }
-        }
+        } 
         System.out.println("The maximum element is: " + max);
     }
 }
