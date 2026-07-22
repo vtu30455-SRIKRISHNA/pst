@@ -1,0 +1,12 @@
+public class Main {
+    public static void main(String[] args) {
+        // Define the array
+        int[] numbers = {10, 20, 30, 40, 50};
+        
+        // Define the index you want to access
+        int index = 2; 
+
+        // Access and print the element
+        System.out.println("Element at index " + index + ": " + numbers[index]);
+    }
+}
