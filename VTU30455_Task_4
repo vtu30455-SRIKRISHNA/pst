@@ -1,0 +1,19 @@
+import java.util.Arrays;
+public class KthSmallestSorting {
+    public static void main(String[] args) {
+        int[] arr = {12, 3, 5, 7, 19, 1};
+        int k = 3;
+        int result = findKthSmallestSort(arr, k);
+        if (result != -1) {
+            System.out.println("The " + k + "rd smallest element is: " + result);
+        }
+    }
+    public static int findKthSmallestSort(int[] arr, int k) {
+        if (k < 1 || k > arr.length) {
+            System.out.println("Invalid value of K");
+            return -1;
+        }
+        Arrays.sort(arr);
+        return arr[k - 1];
+    }
+}
