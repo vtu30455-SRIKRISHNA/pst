@@ -1,0 +1,52 @@
+import java.io.*;
+import java.util.*;
+
+// 1. Define the Student class matching the correct inputs
+class Student {
+    private final int id;
+    private final String fname;
+    private final double cgpa;
+
+    public Student(int id, String fname, double cgpa) {
+        this.id = id;
+        this.fname = fname;
+        this.cgpa = cgpa;
+    }
+
+    public int getId() { return id; }
+    public String getFname() { return fname; }
+    public double getCgpa() { return cgpa; }
+}
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        
+        if (!in.hasNextInt()) return;
+        int testCases = in.nextInt();
+        
+        List<Student> studentList = new ArrayList<>();
+        while (testCases > 0 && in.hasNext()) {
+            int id = in.nextInt();
+            String fname = in.next();
+            double cgpa = in.nextDouble();
+            
+            Student st = new Student(id, fname, cgpa);
+            studentList.add(st);
+            testCases--;
+        }
+        in.close();
+        
+        // 2. Multi-level custom sorting engine using modern Java 15 Comparator
+        studentList.sort(
+            Comparator.comparingDouble(Student::getCgpa).reversed()
+                      .thenComparing(Student::getFname)
+                      .thenComparingInt(Student::getId)
+        );
+        
+        // 3. Print out ONLY the names as shown in the Expected Output
+        for (Student st : studentList) {
+            System.out.println(st.getFname());
+        }
+    }
+}
