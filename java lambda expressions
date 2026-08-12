@@ -1,0 +1,76 @@
+import java.io.*;
+import java.util.*;
+import java.math.BigInteger;
+
+// 1. The mandatory interface
+interface PerformOperation {
+    boolean check(int a);
+}
+
+// 2. Your core calculator logic
+class MyCalculator {
+    public PerformOperation isOdd() {
+        return new PerformOperation() {
+            @Override
+            public boolean check(int n) {
+                return n % 2 != 0;
+            }
+        };
+    }
+
+    public PerformOperation isPrime() {
+        return new PerformOperation() {
+            @Override
+            public boolean check(int n) {
+                return n > 1 && BigInteger.valueOf(n).isProbablePrime(10);
+            }
+        };
+    }
+
+    public PerformOperation isPalindrome() {
+        return new PerformOperation() {
+            @Override
+            public boolean check(int n) {
+                String str = Integer.toString(n);
+                String rev = new StringBuilder(str).reverse().toString();
+                return str.equals(rev);
+            }
+        };
+    }
+}
+
+// 3. The cleaned-up Main class
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        MyCalculator ob = new MyCalculator();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int T = Integer.parseInt(br.readLine().trim());
+        
+        PerformOperation op;
+        boolean ret = false;
+        String ans = null;
+        
+        while (T-- > 0) {
+            String s = br.readLine().trim();
+            StringTokenizer st = new StringTokenizer(s);
+            int ch = Integer.parseInt(st.nextToken());
+            int num = Integer.parseInt(st.nextToken());
+            
+            if (ch == 1) {
+                op = ob.isOdd();
+                ret = op.check(num);
+                ans = (ret) ? "ODD" : "EVEN";
+            } else if (ch == 2) {
+                op = ob.isPrime();
+                ret = op.check(num);
+                ans = (ret) ? "PRIME" : "COMPOSITE";
+            } else if (ch == 3) {
+                op = ob.isPalindrome();
+                ret = op.check(num);
+                ans = (ret) ? "PALINDROME" : "NOT PALINDROME";
+            }
+            System.out.println(ans);
+        }
+    }
+}
