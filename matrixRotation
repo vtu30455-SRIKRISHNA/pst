@@ -1,0 +1,95 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void matrixRotation(List<List<Integer>> matrix, int r) {
+        int m = matrix.size();
+        int n = matrix.get(0).size();
+        int layers = Math.min(m, n) / 2;
+        
+        for (int layer = 0; layer < layers; layer++) {
+            List<Integer> currentLayer = new ArrayList<>();
+            
+            int r1 = layer, c1 = layer;
+            int r2 = m - 1 - layer, c2 = n - 1 - layer;
+            
+            // 1. Extract elements of the current layer
+            // Top row (left to right)
+            for (int col = c1; col < c2; col++) {
+                currentLayer.add(matrix.get(r1).get(col));
+            }
+            // Right column (top to bottom)
+            for (int row = r1; row < r2; row++) {
+                currentLayer.add(matrix.get(row).get(c2));
+            }
+            // Bottom row (right to left)
+            for (int col = c2; col > c1; col--) {
+                currentLayer.add(matrix.get(r2).get(col));
+            }
+            // Left column (bottom to top)
+            for (int row = r2; row > r1; row--) {
+                currentLayer.add(matrix.get(row).get(c1));
+            }
+            
+            // 2. Rotate the layer effectively using modulo
+            int length = currentLayer.size();
+            int shift = r % length;
+            
+            List<Integer> rotatedLayer = new ArrayList<>();
+            for (int i = 0; i < length; i++) {
+                rotatedLayer.add(currentLayer.get((i + shift) % length));
+            }
+            
+            // 3. Put elements back into the matrix
+            int idx = 0;
+            for (int col = c1; col < c2; col++) {
+                matrix.get(r1).set(col, rotatedLayer.get(idx++));
+            }
+            for (int row = r1; row < r2; row++) {
+                matrix.get(row).set(c2, rotatedLayer.get(idx++));
+            }
+            for (int col = c2; col > c1; col--) {
+                matrix.get(r2).set(col, rotatedLayer.get(idx++));
+            }
+            for (int row = r2; row > r1; row--) {
+                matrix.get(row).set(c1, rotatedLayer.get(idx++));
+            }
+        }
+        
+        // Print the resulting matrix
+        for (List<Integer> row : matrix) {
+            StringBuilder sb = new StringBuilder();
+            for (int val : row) {
+                sb.append(val).append(" ");
+            }
+            System.out.println(sb.toString().trim());
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int m = Integer.parseInt(firstMultipleInput[0]);
+        int n = Integer.parseInt(firstMultipleInput[1]);
+        int r = Integer.parseInt(firstMultipleInput[2]);
+
+        List<List<Integer>> matrix = new ArrayList<>();
+
+        for (int i = 0; i < m; i++) {
+            String[] matrixRowTempItems = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+            List<Integer> matrixRowItems = new ArrayList<>();
+
+            for (int j = 0; j < n; j++) {
+                int matrixItem = Integer.parseInt(matrixRowTempItems[j]);
+                matrixRowItems.add(matrixItem);
+            }
+
+            matrix.add(matrixRowItems);
+        }
+
+        matrixRotation(matrix, r);
+        bufferedReader.close();
+    }
+}
