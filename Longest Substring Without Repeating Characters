@@ -1,0 +1,32 @@
+import java.util.Arrays;
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        int maxLength = 0;
+        
+        // Array to store the last seen index of each ASCII character.
+        // Initialized to -1 since no characters have been seen yet.
+        int[] lastIndex = new int[128];
+        Arrays.fill(lastIndex, -1);
+        
+        int left = 0;
+        for (int right = 0; right < n; right++) {
+            char c = s.charAt(right);
+            
+            // If the character is already in the current window,
+            // shift the left pointer to the right of the last seen position.
+            if (lastIndex[c] >= left) {
+                left = lastIndex[c] + 1;
+            }
+            
+            // Update the last seen index of the current character
+            lastIndex[c] = right;
+            
+            // Calculate the maximum length encountered so far
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+        
+        return maxLength;
+    }
+}
